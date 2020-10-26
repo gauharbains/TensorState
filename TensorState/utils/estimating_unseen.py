@@ -23,9 +23,9 @@ def makeFingerprint(sample):
         fingerprint: fingerprint of the input 
     """
 
-    bin_edges = [i+0.5 for i in range(min(sample)-1, max(sample)+1)]
+    bin_edges = [i+0.5 for i in range(int(min(sample)-1), int(max(sample)+1))]
     counts, edges =  np.histogram(sample, bin_edges)
-    bin_edges = [i+0.5 for i in range(-1, max(counts)+1)]
+    bin_edges = [i+0.5 for i in range(-1, int(max(counts)+1))]
     counts, edges =  np.histogram(counts, bin_edges)
     fingerprint = counts[1:]
     return fingerprint
@@ -146,7 +146,7 @@ def unseen(f):
     # second linear program to minimize support size
     output = linprog(objf2, A_ub=A2, b_ub=b2, A_eq=Aeq, b_eq=beq, bounds=(0,np.inf),  options = {'maxiter': 1000})
     sol2 = output.x
-    sol2 = [ round(i,4) for i in sol2]
+    sol2 = [ round(i,8) for i in sol2]
     sol2 = np.array([sol2])
     exitflag2 = output.status
 
