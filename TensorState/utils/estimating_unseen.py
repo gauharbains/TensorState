@@ -124,7 +124,7 @@ def unseen(f):
         Aeq[0,i] = Aeq[0,i]/xLP[i]
     
     # first linear program
-    output = linprog(objf, A_ub=A, b_ub=b, A_eq=Aeq, b_eq=beq, bounds=(0,np.inf),  options = {'maxiter': 1000})
+    output = linprog(objf, A_ub=A, b_ub=b, A_eq=Aeq, b_eq=beq, bounds=(0,np.inf),  options = {'maxiter': maxLPIters})
     fval = output.fun
     exitflag = output.status
 
@@ -144,9 +144,9 @@ def unseen(f):
         objf2[i,0] = objf2[i,0]/xLP[i]
     
     # second linear program to minimize support size
-    output = linprog(objf2, A_ub=A2, b_ub=b2, A_eq=Aeq, b_eq=beq, bounds=(0,np.inf),  options = {'maxiter': 1000})
+    output = linprog(objf2, A_ub=A2, b_ub=b2, A_eq=Aeq, b_eq=beq, bounds=(0,np.inf), method='revised simplex', options = {'maxiter': 1000, 'tol':1e-4})
     sol2 = output.x
-    sol2 = [ round(i,8) for i in sol2]
+    sol2 = [ round(i,7) for i in sol2]
     sol2 = np.array([sol2])
     exitflag2 = output.status
 
@@ -165,5 +165,3 @@ def unseen(f):
     histx = [histx[i] for i in ind]
 
     return histx, x
-    
-
